@@ -1,1 +1,1 @@
-{"description":"question-generator.service.tsに60種類の文法テンプレートを定義。各テンプレートは表示文とかなを同時に構築します。","count":60}
+{"description":"question-generator.service.tsに96種類の文法テンプレートを定義。現代語、古風な表現、文学的な描写を含み、各テンプレートは表示文とかなを同時に構築します。","count":96}
