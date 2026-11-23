@@ -1,1 +1,1 @@
-{"description":"question-generator.service.tsに96種類の文法テンプレートを定義。現代語、古風な表現、文学的な描写を含み、各テンプレートは表示文とかなを同時に構築します。","count":96}
+{"description":"question-generator.service.tsに168種類の文法テンプレートを定義。初級専用の短文、長音、半角英数字、記号、現代語、古風な表現、文学的な描写を含みます。","count":168}

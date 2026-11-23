@@ -99,6 +99,31 @@ TEMPLATES.push(
  ...LITERARY_EXPRESSIONS.map(phrase=>()=>join(pick(TIMES),phrase))
 );
 
+// 初級は一息で打てる短文だけを使う。長音、英数字、記号も少量ずつ混ぜる。
+const BEGINNER_TEMPLATE_START=TEMPLATES.length;
+const SHORT_BEGINNER=[
+ w('猫が寝る。','ねこがねる。'),w('犬が走る。','いぬがはしる。'),w('鳥が飛ぶ。','とりがとぶ。'),w('魚が泳ぐ。','さかながおよぐ。'),
+ w('空が青い。','そらがあおい。'),w('花が咲く。','はながさく。'),w('雨が降る。','あめがふる。'),w('風が吹く。','かぜがふく。'),
+ w('朝になった。','あさになった。'),w('月が出た。','つきがでた。'),w('星が光る。','ほしがひかる。'),w('春が来た。','はるがきた。'),
+ w('本を読む。','ほんをよむ。'),w('字を書く。','じをかく。'),w('水を飲む。','みずをのむ。'),w('窓を開ける。','まどをあける。'),
+ w('靴を履く。','くつをはく。'),w('手を洗う。','てをあらう。'),w('ご飯を炊く。','ごはんをたく。'),w('道を渡る。','みちをわたる。'),
+ w('声が届く。','こえがとどく。'),w('音が鳴る。','おとがなる。'),w('夢を見る。','ゆめをみる。'),w('家に帰る。','いえにかえる。'),
+ w('今日は晴れ。','きょうははれ。'),w('明日は休み。','あしたはやすみ。'),w('少し休もう。','すこしやすもう。'),w('また会おう。','またあおう。'),
+ w('ゆっくり進む。','ゆっくりすすむ。'),w('元気に笑う。','げんきにわらう。'),w('静かに待つ。','しずかにまつ。'),w('まっすぐ歩く。','まっすぐあるく。'),
+ w('コーヒーを飲む。','こーひーをのむ。'),w('ケーキを買う。','けーきをかう。'),w('ゲームで遊ぶ。','げーむであそぶ。'),w('メールを送る。','めーるをおくる。'),
+ w('チームで勝つ。','ちーむでかつ。'),w('ルールを守る。','るーるをまもる。'),w('スープを作る。','すーぷをつくる。'),w('ノートに書く。','のーとにかく。'),
+ w('IDはa7です。','idはa7です。'),w('番号は25です。','ばんごうは25です。'),w('3+5=8です。','3+5=8です。'),w('100%です。','100%です。'),
+ w('a-zを打つ。','a-zをうつ。'),w('x/2を計算。','x/2をけいさん。'),w('時刻は7:30。','じこくは7:30。'),w('名前はuser1。','なまえはuser1。'),
+ w('#を選ぶ。','#をえらぶ。'),w('@を押す。','@をおす。'),w('a_bと書く。','a_bとかく。'),w('ok!と打つ。','ok!とうつ。'),
+ w('yesかno。','yesかno。'),w('level 2です。','level 2です。'),w('codeは404。','codeは404。'),w('2*3は6。','2*3は6。'),
+ w('赤か青？','あかかあお？'),w('右へ進む。','みぎへすすむ。'),w('丸を描く。','まるをかく。'),w('音を止める。','おとをとめる。')
+];
+TEMPLATES.push(...SHORT_BEGINNER.map(phrase=>()=>phrase));
+const SHORT_SUBJECTS=[w('猫','ねこ'),w('犬','いぬ'),w('鳥','とり'),w('僕','ぼく'),w('私','わたし'),w('友達','ともだち')];
+const SHORT_ACTIONS=[w('笑った','わらった'),w('走った','はしった'),w('休んだ','やすんだ'),w('歌った','うたった'),w('待った','まった'),w('歩いた','あるいた')];
+for(let i=0;i<12;i++)TEMPLATES.push(()=>join(pick(SHORT_SUBJECTS),'が',pick(SHORT_ACTIONS),'。'));
+const BEGINNER_TEMPLATE_END=TEMPLATES.length;
+
 const FIXED_START=[w('朝の光が','あさのひかりが'),w('爽やかな風が','さわやかなかぜが'),w('友達の笑顔が','ともだちのえがおが'),w('丁寧な準備が','ていねいなじゅんびが'),w('日々の練習が','ひびのれんしゅうが'),w('小さな発見が','ちいさなはっけんが'),w('温かい言葉が','あたたかいことばが'),w('新しい挑戦が','あたらしいちょうせんが'),w('静かな音楽が','しずかなおんがくが'),w('季節の変化が','きせつのへんかが')];
 const FIXED_END=[w('一日の始まりを知らせた。','いちにちのはじまりをしらせた。'),w('心を少し軽くしてくれた。','こころをすこしかるくしてくれた。'),w('次の一歩を踏み出す力になった。','つぎのいっぽをふみだすちからになった。'),w('いつもの景色を鮮やかに変えた。','いつものけしきをあざやかにかえた。'),w('大切なことを思い出させてくれた。','たいせつなことをおもいださせてくれた。')];
 const FIXED:Built[]=FIXED_START.flatMap(a=>FIXED_END.map(b=>join(a,b)));
@@ -110,15 +135,17 @@ export class QuestionGeneratorService {
   resetSession(){this.session.clear();this.lastTemplates=[];}
   async generate(difficulty:Difficulty):Promise<Question>{
     for(let attempt=0;attempt<40;attempt++){
-      const eligible=TEMPLATES.map((_,i)=>i).filter(i=>difficulty==='beginner'?(i<7||(i>=20&&i<30)):difficulty==='advanced'?(i>=7&&i<20)||i>=40:true);
+      const eligible=TEMPLATES.map((_,i)=>i).filter(i=>difficulty==='beginner'?i>=BEGINNER_TEMPLATE_START&&i<BEGINNER_TEMPLATE_END:difficulty==='advanced'?(i>=7&&i<20)||i>=40&&i<BEGINNER_TEMPLATE_START:true);
       const available=eligible.filter(i=>!this.lastTemplates.includes(i)); const ti=pick(available.length?available:eligible);
       const b=TEMPLATES[ti](difficulty); const key=this.normalize(b.text);
       if(this.valid(b)&&!this.session.has(key)&&!this.recent.has(key)) return this.finish(b,difficulty,'template',`template-${ti}`,key,ti);
     }
-    for(const b of FIXED.sort(()=>Math.random()-.5)){const key=this.normalize(b.text);if(!this.session.has(key))return this.finish(b,difficulty,'fixed','fixed',key,-1)}
-    const b=TEMPLATES[Math.floor(Math.random()*TEMPLATES.length)](difficulty);return this.finish(b,difficulty,'template','exhausted',this.normalize(b.text)+'-'+Date.now(),-1);
+    const fallback=difficulty==='beginner'?SHORT_BEGINNER:FIXED;
+    for(const b of [...fallback].sort(()=>Math.random()-.5)){const key=this.normalize(b.text);if(!this.session.has(key))return this.finish(b,difficulty,'fixed','fixed',key,-1)}
+    const exhaustedPool=difficulty==='beginner'?TEMPLATES.slice(BEGINNER_TEMPLATE_START,BEGINNER_TEMPLATE_END):TEMPLATES;
+    const b=pick(exhaustedPool)(difficulty);return this.finish(b,difficulty,'template','exhausted',this.normalize(b.text)+'-'+Date.now(),-1);
   }
   private finish(b:Built,d:Difficulty,source:'template'|'fixed',templateId:string,key:string,ti:number):Question{this.session.add(key);this.recent.add(key);this.lastTemplates=[...this.lastTemplates.slice(-1),ti];void this.storage.rememberQuestion(key);return{id:crypto.randomUUID(),text:b.text,kana:b.kana,difficulty:d,category:'daily',source,duplicateKey:key,templateId}}
   private valid(b:Built){return b.text.length>3&&b.kana.length>3&&!/[一-龠]/.test(b.kana)&&!b.text.includes('undefined')}
-  private normalize(v:string){return v.normalize('NFKC').replace(/[\s。、！？「」0-9]/g,'').toLowerCase()}
+  private normalize(v:string){return v.normalize('NFKC').replace(/[\s。、！？「」]/g,'').toLowerCase()}
 }

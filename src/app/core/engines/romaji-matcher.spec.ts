@@ -8,4 +8,5 @@ describe('RomajiMatcher',()=>{
   it('母音前の「ん」を曖昧なく表現する',()=>{expect(romajiCandidates('んあ')).toContain("n'a");expect(romajiCandidates('んあ')).toContain('nna')});
   it('誤入力では状態を進めない',()=>{const m=new RomajiMatcher('し');m.type('x');expect(m.state.input).toBe('')});
   it('文章を最後まで完了できる',()=>{const m=new RomajiMatcher('すし');for(const k of 'sushi')m.type(k);expect(m.state.complete).toBe(true)});
+  it('長音と半角英数字・記号を受理する',()=>{expect(romajiCandidates('こーひー')).toContain('ko-hi-');expect(romajiCandidates('a7+3=10')).toContain('a7+3=10')});
 });
