@@ -35,7 +35,8 @@ export interface AppSettings {
   sound: boolean;
   missSound: 'soft' | 'wood' | 'digital' | 'bell' | 'low';
   correctSoundEnabled: boolean;
-  correctSound: 'crisp' | 'mechanical' | 'bubble' | 'glass' | 'synth';
+  correctSound: 'crisp' | 'mechanical' | 'bubble' | 'glass' | 'synth' | 'typewriter' | 'marimba' | 'laser' | 'drop' | 'tick' | 'pop' | 'retro';
+  correctSoundVolume: number;
   showRomaji: boolean;
   showKana: boolean;
   theme: 'dark' | 'light';
@@ -43,6 +44,6 @@ export interface AppSettings {
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
-  sound: true, missSound: 'soft', correctSoundEnabled: true, correctSound: 'crisp', showRomaji: true, showKana: true, theme: 'dark', fontSize: 'medium'
+  sound: true, missSound: 'soft', correctSoundEnabled: true, correctSound: 'crisp', correctSoundVolume: 100, showRomaji: true, showKana: true, theme: 'dark', fontSize: 'medium'
 };
 

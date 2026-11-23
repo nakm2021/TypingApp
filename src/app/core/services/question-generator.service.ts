@@ -99,6 +99,34 @@ TEMPLATES.push(
  ...LITERARY_EXPRESSIONS.map(phrase=>()=>join(pick(TIMES),phrase))
 );
 
+const MORE_INTERMEDIATE=[
+ w('朝の電車はいつもより少し空いていた。','あさのでんしゃはいつもよりすこしすいていた。'),w('冷蔵庫にある材料で夕食を考えた。','れいぞうこにあるざいりょうでゆうしょくをかんがえた。'),w('予定より早く着いたので近くを散歩した。','よていよりはやくついたのでちかくをさんぽした。'),w('読みかけの本を鞄に入れて家を出た。','よみかけのほんをかばんにいれていえをでた。'),
+ w('知らない曲なのにどこか懐かしく感じた。','しらないきょくなのにどこかなつかしくかんじた。'),w('窓辺の植物に新しい葉が増えていた。','まどべのしょくぶつにあたらしいはがふえていた。'),w('混雑を避けて一本裏の道を選んだ。','こんざつをさけていっぽんうらのみちをえらんだ。'),w('忘れ物がないか玄関でもう一度確かめた。','わすれものがないかげんかんでもういちどたしかめた。'),
+ w('気になる言葉を手帳の隅に書き留めた。','きになることばをてちょうのすみにかきとめた。'),w('小さな店から焼きたてのパンの香りがした。','ちいさなみせからやきたてのぱんのかおりがした。'),w('遠回りをしたおかげで美しい夕焼けを見た。','とおまわりをしたおかげでうつくしいゆうやけをみた。'),w('机の上を片づけると気持ちまで整った。','つくえのうえをかたづけるときもちまでととのった。'),
+ w('会話の途中で思わず同時に笑ってしまった。','かいわのとちゅうでおもわずどうじにわらってしまった。'),w('新しい道具は慣れるまで丁寧に扱った。','あたらしいどうぐはなれるまでていねいにあつかった。'),w('雨音を聞きながら明日の準備を進めた。','あまおとをききながらあしたのじゅんびをすすめた。'),w('目標を小さく分けると最初の一歩が軽くなった。','もくひょうをちいさくわけるとさいしょのいっぽがかるくなった。'),
+ w('季節限定という言葉に少し心が揺れた。','きせつげんていということばにすこしこころがゆれた。'),w('電池の残りを見て充電器を持って出た。','でんちののこりをみてじゅうでんきをもってでた。'),w('返事を書く前に相手の文章を読み返した。','へんじをかくまえにあいてのぶんしょうをよみかえした。'),w('いつもの席から今日は違う景色が見えた。','いつものせきからきょうはちがうけしきがみえた。'),
+ w('湯気の向こうで時計の針が静かに進んだ。','ゆげのむこうでとけいのはりがしずかにすすんだ。'),w('言葉に迷ったときは短く正直に伝えた。','ことばにまよったときはみじかくしょうじきにつたえた。'),w('帰り道に見つけた店を地図へ保存した。','かえりみちにみつけたみせをちずへほぞんした。'),w('眠る前の五分だけ部屋を暗くして過ごした。','ねむるまえのごふんだけへやをくらくしてすごした。')
+];
+const MORE_ADVANCED=[
+ w('薄雲を透かした月光が石畳に淡い模様を描いていた。','うすぐもをすかしたげっこうがいしだたみにあわいもようをえがいていた。'),w('確かな答えよりも問い続ける姿勢に価値があるのかもしれない。','たしかなこたえよりもといつづけるしせいにかちがあるのかもしれない。'),w('遠ざかる足音を聞きながら彼は言えなかった言葉を数えた。','とおざかるあしおとをききながらかれはいえなかったことばをかぞえた。'),w('古びた時計は部屋の沈黙を等しい間隔で刻み続けていた。','ふるびたとけいはへやのちんもくをひとしいかんかくできざみつづけていた。'),
+ w('誰かの記憶に残ることと正しく理解されることは同じではない。','だれかのきおくにのこることとただしくりかいされることはおなじではない。'),w('雨上がりの舗道には見慣れた町が逆さまに映っていた。','あめあがりのほどうにはみなれたまちがさかさまにうつっていた。'),w('曖昧な予感だけを頼りに彼女は名もない駅で列車を降りた。','あいまいなよかんだけをたよりにかのじょはなもないえきでれっしゃをおりた。'),w('過ぎ去った時間は戻らないが意味だけは後から変わることがある。','すぎさったじかんはもどらないがいみだけはあとからかわることがある。'),
+ w('夜の静寂には昼間なら聞き逃すほど小さな気配が満ちている。','よるのせいじゃくにはひるまならききのがすほどちいさなけはいがみちている。'),w('選ばなかった道の先にも別の自分が歩いているような気がした。','えらばなかったみちのさきにもべつのじぶんがあるいているようなきがした。'),w('書き直した一行には最初の文章より深い呼吸が宿っていた。','かきなおしたいちぎょうにはさいしょのぶんしょうよりふかいこきゅうがやどっていた。'),w('季節の境目は暦よりも風の匂いや光の角度に先に現れる。','きせつのさかいめはこよみよりもかぜのにおいやひかりのかくどにさきにあらわれる。'),
+ w('理解したつもりでいた言葉が経験を経てまるで違う響きを持った。','りかいしたつもりでいたことばがけいけんをへてまるでちがうひびきをもった。'),w('水面を渡る風が細かな波を起こし空の輪郭を揺らしていた。','みなもをわたるかぜがこまかななみをおこしそらのりんかくをゆらしていた。'),w('別れ際の何気ない一言が長い旅のあいだ心を支えてくれた。','わかれぎわのなにげないひとことがながいたびのあいだこころをささえてくれた。'),w('不完全な地図を手にしたからこそ自分の目で景色を確かめられた。','ふかんぜんなちずをてにしたからこそじぶんのめでけしきをたしかめられた。'),
+ w('静けさを恐れずにいると散らばっていた思考が一つずつ形になった。','しずけさをおそれずにいるとちらばっていたしこうがひとつずつかたちになった。'),w('窓ガラスに残った雨粒が街の灯を無数の色へ分けていた。','まどがらすにのこったあまつぶがまちのひをむすうのいろへわけていた。'),w('遠い日の約束は忘れた頃になって思いがけない形で果たされた。','とおいひのやくそくはわすれたころになっておもいがけないかたちではたされた。'),w('言葉を尽くすほど伝わらない夜にはただ隣にいることを選んだ。','ことばをつくすほどつたわらないよるにはただとなりにいることをえらんだ。'),
+ w('朝焼けに染まる山並みは眠りから目覚める巨大な生き物に見えた。','あさやけにそまるやまなみはねむりからめざめるきょだいないきものにみえた。'),w('日常の小さな選択が振り返れば人生の方向を静かに決めていた。','にちじょうのちいさなせんたくがふりかえればじんせいのほうこうをしずかにきめていた。'),w('誰もいない劇場には物語の余熱だけがまだ漂っているようだった。','だれもいないげきじょうにはものがたりのよねつだけがまだただよっているようだった。'),w('変わらないものを守るためには自分から変わる勇気も必要になる。','かわらないものをまもるためにはじぶんからかわるゆうきもひつようになる。')
+];
+const EXTRA_TOPICS=[w('小さな目標','ちいさなもくひょう'),w('新しい習慣','あたらしいしゅうかん'),w('旅の計画','たびのけいかく'),w('季節の料理','きせつのりょうり'),w('町の歴史','まちのれきし'),w('未来の仕事','みらいのしごと'),w('身近な自然','みぢかなしぜん'),w('大切な約束','たいせつなやくそく'),w('朝の時間','あさのじかん'),w('好きな音楽','すきなおんがく'),w('遠い故郷','とおいふるさと'),w('今日の発見','きょうのはっけん')];
+const EXTRA_VERBS=[w('について話し合った','についてはなしあった'),w('を手帳にまとめた','をてちょうにまとめた'),w('を友達に紹介した','をともだちにしょうかいした'),w('をゆっくり振り返った','をゆっくりふりかえった'),w('から新しい考えを得た','からあたらしいかんがえをえた'),w('を自分の言葉で説明した','をじぶんのことばでせつめいした'),w('を写真と一緒に記録した','をしゃしんといっしょにきろくした'),w('を別の角度から見直した','をべつのかくどからみなおした')];
+const EXTRA_OPENERS=[w('帰りの電車で','かえりのでんしゃで'),w('静かな午後に','しずかなごごに'),w('雨が止んだあとで','あめがやんだあとで'),w('予定が変わったので','よていがかわったので'),w('少し時間ができたため','すこしじかんができたため'),w('友達に勧められて','ともだちにすすめられて')];
+for(let i=0;i<12;i++)TEMPLATES.push(()=>join(pick(SUBJECTS),'は',pick(EXTRA_TOPICS),pick(EXTRA_VERBS),'。'));
+for(let i=0;i<10;i++)TEMPLATES.push(()=>join(pick(EXTRA_OPENERS),pick(SUBJECTS),'は',pick(EXTRA_TOPICS),pick(EXTRA_VERBS),'。'));
+for(let i=0;i<8;i++)TEMPLATES.push(()=>join(pick(EXTRA_TOPICS),w('をきっかけに、','をきっかけに、'),pick(SUBJECTS),w('は少しずつ変わり始めた。','はすこしずつかわりはじめた。')));
+const MORE_INTERMEDIATE_START=TEMPLATES.length;
+TEMPLATES.push(...MORE_INTERMEDIATE.map(phrase=>()=>phrase));
+const MORE_ADVANCED_START=TEMPLATES.length;
+TEMPLATES.push(...MORE_ADVANCED.map(phrase=>()=>phrase));
+const MORE_ADVANCED_END=TEMPLATES.length;
+
 // 初級は一息で打てる短文だけを使う。長音、英数字、記号も少量ずつ混ぜる。
 const BEGINNER_TEMPLATE_START=TEMPLATES.length;
 const SHORT_BEGINNER=[
@@ -119,24 +147,45 @@ const SHORT_BEGINNER=[
  w('赤か青？','あかかあお？'),w('右へ進む。','みぎへすすむ。'),w('丸を描く。','まるをかく。'),w('音を止める。','おとをとめる。')
 ];
 TEMPLATES.push(...SHORT_BEGINNER.map(phrase=>()=>phrase));
+const MORE_SHORT_BEGINNER=[
+ w('おはよう。','おはよう。'),w('ありがとう。','ありがとう。'),w('また明日。','またあした。'),w('元気ですか？','げんきですか？'),w('はい、元気です。','はい、げんきです。'),w('いってきます。','いってきます。'),w('おかえり。','おかえり。'),w('いただきます。','いただきます。'),
+ w('どこへ行く？','どこへいく？'),w('何を読む？','なにをよむ？'),w('今は何時？','いまはなんじ？'),w('これは何？','これはなに？'),w('どちらが好き？','どちらがすき？'),w('もう一度いい？','もういちどいい？'),w('準備はいい？','じゅんびはいい？'),w('次はどこ？','つぎはどこ？'),
+ w('しとしと降る。','しとしとふる。'),w('きらきら光る。','きらきらひかる。'),w('ふわふわ浮く。','ふわふわうく。'),w('ころころ転がる。','ころころころがる。'),w('わくわくする。','わくわくする。'),w('すやすや眠る。','すやすやねむる。'),w('ぱちぱち鳴る。','ぱちぱちなる。'),w('ぐんぐん伸びる。','ぐんぐんのびる。'),
+ w('パンを焼く。','ぱんをやく。'),w('卵を割る。','たまごをわる。'),w('皿を並べる。','さらをならべる。'),w('服をたたむ。','ふくをたたむ。'),w('鍵をかける。','かぎをかける。'),w('席に座る。','せきにすわる。'),w('灯りを消す。','あかりをけす。'),w('傘を閉じる。','かさをとじる。'),
+ w('白い雲。','しろいくも。'),w('丸い月。','まるいつき。'),w('高い山。','たかいやま。'),w('深い海。','ふかいうみ。'),w('広い空。','ひろいそら。'),w('細い道。','ほそいみち。'),w('甘い桃。','あまいもも。'),w('熱いお茶。','あついおちゃ。'),
+ w('セーターを着る。','せーたーをきる。'),w('タクシーを呼ぶ。','たくしーをよぶ。'),w('カレーを作る。','かれーをつくる。'),w('ボールを投げる。','ぼーるをなげる。'),w('ギターを弾く。','ぎたーをひく。'),w('チーズを切る。','ちーずをきる。'),w('カードを引く。','かーどをひく。'),w('ゴールを目指す。','ごーるをめざす。'),
+ w('saveを押す。','saveをおす。'),w('fileを開く。','fileをひらく。'),w('ver.2です。','ver.2です。'),w('a=10です。','a=10です。'),w('5/10です。','5/10です。'),w('priceは500円。','priceは500えん。'),w('hello!と打つ。','hello!とうつ。'),w('test_1です。','test_1です。'),
+ w('左を見よう。','ひだりをみよう。'),w('深呼吸する。','しんこきゅうする。'),w('姿勢を正す。','しせいをただす。'),w('一歩進もう。','いっぽすすもう。'),w('今日も始める。','きょうもはじめる。'),w('最後まで打つ。','さいごまでうつ。'),w('焦らず打とう。','あせらずうとう。'),w('楽しく続ける。','たのしくつづける。')
+];
+TEMPLATES.push(...MORE_SHORT_BEGINNER.map(phrase=>()=>phrase));
 const SHORT_SUBJECTS=[w('猫','ねこ'),w('犬','いぬ'),w('鳥','とり'),w('僕','ぼく'),w('私','わたし'),w('友達','ともだち')];
 const SHORT_ACTIONS=[w('笑った','わらった'),w('走った','はしった'),w('休んだ','やすんだ'),w('歌った','うたった'),w('待った','まった'),w('歩いた','あるいた')];
 for(let i=0;i<12;i++)TEMPLATES.push(()=>join(pick(SHORT_SUBJECTS),'が',pick(SHORT_ACTIONS),'。'));
+const SHORT_OBJECTS=[w('本','ほん'),w('手紙','てがみ'),w('写真','しゃしん'),w('パン','ぱん'),w('花','はな'),w('地図','ちず'),w('鍵','かぎ'),w('帽子','ぼうし'),w('時計','とけい'),w('鞄','かばん')];
+const SHORT_OBJECT_ACTIONS=[w('を見つけた','をみつけた'),w('を選んだ','をえらんだ'),w('を持った','をもった'),w('を置いた','をおいた'),w('を見せた','をみせた'),w('を探した','をさがした')];
+const SHORT_PLACES=[w('庭','にわ'),w('駅','えき'),w('店','みせ'),w('森','もり'),w('橋','はし'),w('浜辺','はまべ'),w('教室','きょうしつ'),w('台所','だいどころ')];
+for(let i=0;i<16;i++)TEMPLATES.push(()=>join(pick(SHORT_SUBJECTS),'は',pick(SHORT_OBJECTS),pick(SHORT_OBJECT_ACTIONS),'。'));
+for(let i=0;i<14;i++)TEMPLATES.push(()=>join(pick(SHORT_SUBJECTS),'は',pick(SHORT_PLACES),w('へ行った。','へいった。')));
 const BEGINNER_TEMPLATE_END=TEMPLATES.length;
 
 const FIXED_START=[w('朝の光が','あさのひかりが'),w('爽やかな風が','さわやかなかぜが'),w('友達の笑顔が','ともだちのえがおが'),w('丁寧な準備が','ていねいなじゅんびが'),w('日々の練習が','ひびのれんしゅうが'),w('小さな発見が','ちいさなはっけんが'),w('温かい言葉が','あたたかいことばが'),w('新しい挑戦が','あたらしいちょうせんが'),w('静かな音楽が','しずかなおんがくが'),w('季節の変化が','きせつのへんかが')];
 const FIXED_END=[w('一日の始まりを知らせた。','いちにちのはじまりをしらせた。'),w('心を少し軽くしてくれた。','こころをすこしかるくしてくれた。'),w('次の一歩を踏み出す力になった。','つぎのいっぽをふみだすちからになった。'),w('いつもの景色を鮮やかに変えた。','いつものけしきをあざやかにかえた。'),w('大切なことを思い出させてくれた。','たいせつなことをおもいださせてくれた。')];
 const FIXED:Built[]=FIXED_START.flatMap(a=>FIXED_END.map(b=>join(a,b)));
+const MONTHLY:Word[][]=[[w('初詣','はつもうで'),w('お正月','おしょうがつ')],[w('節分','せつぶん'),w('梅の花','うめのはな')],[w('ひな祭り','ひなまつり'),w('卒業式','そつぎょうしき')],[w('花見','はなみ'),w('新生活','しんせいかつ')],[w('こいのぼり','こいのぼり'),w('新緑','しんりょく')],[w('梅雨','つゆ'),w('あじさい','あじさい')],[w('七夕','たなばた'),w('夏祭り','なつまつり')],[w('花火大会','はなびたいかい'),w('盆踊り','ぼんおどり')],[w('お月見','おつきみ'),w('秋の虫','あきのむし')],[w('紅葉','こうよう'),w('ハロウィーン','はろうぃーん')],[w('七五三','しちごさん'),w('冬支度','ふゆじたく')],[w('クリスマス','くりすます'),w('年越し','としこし')]];
+const EVE=[w('今日はクリスマスイブ。','きょうはくりすますいぶ。'),w('サンタクロースを待つ。','さんたくろーすをまつ。'),w('ツリーに星を飾る。','つりーにほしをかざる。'),w('鈴の音が夜空に響く。','すずのおとがよぞらにひびく。'),w('プレゼントをそっと置く。','ぷれぜんとをそっとおく。'),w('温かい料理を囲む。','あたたかいりょうりをかこむ。')];
 
 @Injectable({providedIn:'root'})
 export class QuestionGeneratorService {
-  private session=new Set<string>(); private recent=new Set<string>(); private lastTemplates:number[]=[];
+  private session=new Set<string>(); private recent=new Set<string>(); private lastTemplates:number[]=[]; private lastGroups:string[]=[];
   constructor(private storage:StorageService) { void storage.recentQuestionKeys().then(x=>this.recent=new Set(x)); }
-  resetSession(){this.session.clear();this.lastTemplates=[];}
+  resetSession(){this.session.clear();this.lastTemplates=[];this.lastGroups=[];}
   async generate(difficulty:Difficulty):Promise<Question>{
+    const now=new Date(),special=now.getMonth()===11&&now.getDate()===24?EVE:undefined;
+    if(Math.random()<(special?.length?0.55:0.2)){for(let n=0;n<12;n++){const theme=pick(MONTHLY[now.getMonth()]),forms=[()=>join(theme,w('を楽しむ。','をたのしむ。')),()=>join(theme,w('の季節が来た。','のきせつがきた。')),()=>join(theme,w('の準備を始める。','のじゅんびをはじめる。')),()=>join(theme,w('を家族と味わう。','をかぞくとあじわう。'))],b=special?pick(special):pick(forms)(),key=this.normalize(b.text);if(!this.session.has(key)&&!this.recent.has(key))return this.finish(b,difficulty,'template','seasonal',key,-2)}}
     for(let attempt=0;attempt<40;attempt++){
-      const eligible=TEMPLATES.map((_,i)=>i).filter(i=>difficulty==='beginner'?i>=BEGINNER_TEMPLATE_START&&i<BEGINNER_TEMPLATE_END:difficulty==='advanced'?(i>=7&&i<20)||i>=40&&i<BEGINNER_TEMPLATE_START:true);
-      const available=eligible.filter(i=>!this.lastTemplates.includes(i)); const ti=pick(available.length?available:eligible);
+      const eligible=TEMPLATES.map((_,i)=>i).filter(i=>difficulty==='beginner'?i>=BEGINNER_TEMPLATE_START&&i<BEGINNER_TEMPLATE_END:difficulty==='advanced'?(i>=7&&i<20)||(i>=40&&i<MORE_INTERMEDIATE_START)||(i>=MORE_ADVANCED_START&&i<MORE_ADVANCED_END):i<MORE_ADVANCED_START);
+      const varied=eligible.filter(i=>!this.lastGroups.includes(this.group(i,difficulty)));
+      const available=(varied.length?varied:eligible).filter(i=>!this.lastTemplates.includes(i)); const ti=pick(available.length?available:eligible);
       const b=TEMPLATES[ti](difficulty); const key=this.normalize(b.text);
       if(this.valid(b)&&!this.session.has(key)&&!this.recent.has(key)) return this.finish(b,difficulty,'template',`template-${ti}`,key,ti);
     }
@@ -145,7 +194,8 @@ export class QuestionGeneratorService {
     const exhaustedPool=difficulty==='beginner'?TEMPLATES.slice(BEGINNER_TEMPLATE_START,BEGINNER_TEMPLATE_END):TEMPLATES;
     const b=pick(exhaustedPool)(difficulty);return this.finish(b,difficulty,'template','exhausted',this.normalize(b.text)+'-'+Date.now(),-1);
   }
-  private finish(b:Built,d:Difficulty,source:'template'|'fixed',templateId:string,key:string,ti:number):Question{this.session.add(key);this.recent.add(key);this.lastTemplates=[...this.lastTemplates.slice(-1),ti];void this.storage.rememberQuestion(key);return{id:crypto.randomUUID(),text:b.text,kana:b.kana,difficulty:d,category:'daily',source,duplicateKey:key,templateId}}
+  private finish(b:Built,d:Difficulty,source:'template'|'fixed',templateId:string,key:string,ti:number):Question{this.session.add(key);this.recent.add(key);this.lastTemplates=[...this.lastTemplates.slice(-5),ti];this.lastGroups=[...this.lastGroups.slice(-4),this.group(ti,d)];void this.storage.rememberQuestion(key);return{id:crypto.randomUUID(),text:b.text,kana:b.kana,difficulty:d,category:'daily',source,duplicateKey:key,templateId}}
+  private group(i:number,d:Difficulty){if(i<0)return 'fixed';if(d==='beginner')return `beginner-${Math.floor((i-BEGINNER_TEMPLATE_START)/8)}`;if(i>=MORE_ADVANCED_START&&i<MORE_ADVANCED_END)return 'advanced-new';if(i>=MORE_INTERMEDIATE_START&&i<MORE_ADVANCED_START)return 'intermediate-new';return `core-${Math.floor(i/10)}`}
   private valid(b:Built){return b.text.length>3&&b.kana.length>3&&!/[一-龠]/.test(b.kana)&&!b.text.includes('undefined')}
   private normalize(v:string){return v.normalize('NFKC').replace(/[\s。、！？「」]/g,'').toLowerCase()}
 }

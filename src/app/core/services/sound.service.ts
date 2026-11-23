@@ -19,7 +19,14 @@ export class SoundService {
     {id:'mechanical',label:'メカニカル',description:'乾いたキースイッチ音'},
     {id:'bubble',label:'バブル',description:'柔らかな小さい音'},
     {id:'glass',label:'グラス',description:'澄んだ高音'},
-    {id:'synth',label:'シンセ',description:'短い電子パルス'}
+    {id:'synth',label:'シンセ',description:'短い電子パルス'},
+    {id:'typewriter',label:'タイプライター',description:'硬質な打鍵音'},
+    {id:'marimba',label:'マリンバ',description:'丸みのある木琴音'},
+    {id:'laser',label:'レーザー',description:'鋭い上昇音'},
+    {id:'drop',label:'ドロップ',description:'水滴のような音'},
+    {id:'tick',label:'ティック',description:'時計のような短音'},
+    {id:'pop',label:'ポップ',description:'弾ける軽快な音'},
+    {id:'retro',label:'レトロ',description:'8ビット風の音'}
   ];
   private context?: AudioContext;
   constructor(private settings: SettingsService) {}
@@ -45,7 +52,11 @@ export class SoundService {
     const AudioContextClass=window.AudioContext;if(!AudioContextClass)return;
     const ctx=this.context??=new AudioContextClass();if(ctx.state==='suspended')void ctx.resume();
     const now=ctx.currentTime,gain=ctx.createGain(),osc=ctx.createOscillator();gain.connect(ctx.destination);osc.connect(gain);
-    const profile:Record<AppSettings['correctSound'],{f:number;end:number;duration:number;wave:OscillatorType;volume:number}>={crisp:{f:920,end:680,duration:.045,wave:'sine',volume:.09},mechanical:{f:310,end:125,duration:.04,wave:'square',volume:.065},bubble:{f:520,end:760,duration:.065,wave:'sine',volume:.09},glass:{f:1320,end:980,duration:.075,wave:'sine',volume:.07},synth:{f:680,end:420,duration:.05,wave:'triangle',volume:.1}},p=profile[type];
-    osc.type=p.wave;osc.frequency.setValueAtTime(p.f,now);osc.frequency.exponentialRampToValueAtTime(p.end,now+p.duration);gain.gain.setValueAtTime(p.volume,now);gain.gain.exponentialRampToValueAtTime(.0001,now+p.duration);osc.start(now);osc.stop(now+p.duration);
+    const profile:Record<AppSettings['correctSound'],{f:number;end:number;duration:number;wave:OscillatorType;volume:number}>={
+      crisp:{f:920,end:680,duration:.05,wave:'sine',volume:.2},mechanical:{f:310,end:125,duration:.045,wave:'square',volume:.15},bubble:{f:520,end:760,duration:.07,wave:'sine',volume:.2},glass:{f:1320,end:980,duration:.08,wave:'sine',volume:.17},synth:{f:680,end:420,duration:.055,wave:'triangle',volume:.22},
+      typewriter:{f:220,end:80,duration:.035,wave:'sawtooth',volume:.13},marimba:{f:440,end:300,duration:.09,wave:'sine',volume:.24},laser:{f:480,end:1150,duration:.06,wave:'sawtooth',volume:.12},drop:{f:720,end:410,duration:.1,wave:'sine',volume:.22},tick:{f:1800,end:900,duration:.025,wave:'square',volume:.11},pop:{f:260,end:540,duration:.055,wave:'sine',volume:.24},retro:{f:760,end:380,duration:.04,wave:'square',volume:.12}
+    },p=profile[type];
+    const volume=Math.max(0,Math.min(100,this.settings.value().correctSoundVolume))/100;
+    osc.type=p.wave;osc.frequency.setValueAtTime(p.f,now);osc.frequency.exponentialRampToValueAtTime(p.end,now+p.duration);gain.gain.setValueAtTime(Math.max(.0001,p.volume*volume),now);gain.gain.exponentialRampToValueAtTime(.0001,now+p.duration);osc.start(now);osc.stop(now+p.duration);
   }
 }
