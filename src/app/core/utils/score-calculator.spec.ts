@@ -1,0 +1,2 @@
+import { describe,expect,it } from 'vitest';import { calculateStats } from './score-calculator';
+describe('calculateStats',()=>{it('仕様どおりスコアとKPMを計算する',()=>{const x=calculateStats(300,30,60);expect(x.kpm).toBe(300);expect(x.accuracy).toBeCloseTo(90.909);expect(x.score).toBeCloseTo(247.93,1)});it('0除算しない',()=>{const x=calculateStats(0,0,0);expect(x.kpm).toBe(0);expect(x.accuracy).toBe(100);expect(Number.isFinite(x.score)).toBe(true)})});

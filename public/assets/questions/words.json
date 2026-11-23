@@ -1,0 +1,1 @@
+{"description":"実データは型安全なWord辞書としてquestion-generator.service.tsに格納。人物・場所・動作・時間・名詞・形容詞・出来事・感情の8ロール、合計102語。","schema":{"text":"表示","kana":"かな","difficulty":"beginner | intermediate | advanced","category":"意味カテゴリ"}}

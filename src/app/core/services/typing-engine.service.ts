@@ -1,0 +1,20 @@
+import { Injectable, computed, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { CustomGameConfig, Difficulty, GameMode, GameResult, Question } from '../../models/app.models';
+import { RomajiMatcher } from '../engines/romaji-matcher';
+import { calculateStats } from '../utils/score-calculator';
+import { QuestionGeneratorService } from './question-generator.service';
+import { StorageService } from './storage.service';
+import { SoundService } from './sound.service';
+@Injectable({providedIn:'root'})
+export class TypingEngineService {
+ readonly question=signal<Question|null>(null);readonly typed=signal('');readonly guide=signal('');readonly correct=signal(0);readonly mistakes=signal(0);readonly combo=signal(0);readonly maxCombo=signal(0);readonly completed=signal(0);readonly elapsed=signal(0);readonly countdown=signal(3);readonly running=signal(false);readonly missFlash=signal(false);readonly stats=computed(()=>calculateStats(this.correct(),this.mistakes(),this.elapsed()));
+ mode:GameMode='timed';difficulty:Difficulty='beginner';custom:CustomGameConfig={goal:'time',seconds:90,questionCount:20};private matcher?:RomajiMatcher;private startedAt=0;private raf=0;private ending=false;
+ constructor(private generator:QuestionGeneratorService,private storage:StorageService,private router:Router,private sound:SoundService){}
+ async start(mode:GameMode,difficulty:Difficulty,custom?:Partial<CustomGameConfig>){this.mode=mode;this.difficulty=difficulty;this.custom={...this.custom,...custom};this.ending=false;this.generator.resetSession();[this.correct,this.mistakes,this.combo,this.maxCombo,this.completed,this.elapsed].forEach(x=>x.set(0));this.countdown.set(3);await this.next();let n=3;const timer=setInterval(()=>{this.countdown.set(--n);if(n<=0){clearInterval(timer);this.running.set(true);this.startedAt=performance.now();this.loop()}},700)}
+ handle(key:string){if(!this.running()||!this.matcher||key.length!==1)return;if(this.matcher.accepts(key)){const s=this.matcher.type(key);this.typed.set(s.input);this.guide.set(s.guide);this.correct.update(x=>x+1);this.combo.update(x=>x+1);this.maxCombo.set(Math.max(this.maxCombo(),this.combo()));if(s.complete)void this.completeQuestion()}else{this.mistakes.update(x=>x+1);this.combo.set(0);this.sound.playMiss();this.missFlash.set(true);setTimeout(()=>this.missFlash.set(false),120)}}
+ private async completeQuestion(){this.running.set(false);this.completed.update(x=>x+1);const goal=this.mode==='questions'?10:this.mode==='custom'&&this.custom.goal==='questions'?this.custom.questionCount:Infinity;if(this.completed()>=goal){await this.finish();return}await this.next();this.running.set(true)}
+ private async next(){const q=await this.generator.generate(this.difficulty);this.question.set(q);this.matcher=new RomajiMatcher(q.kana);this.typed.set('');this.guide.set(this.matcher.state.guide)}
+ private loop=()=>{if(this.ending)return;this.elapsed.set((performance.now()-this.startedAt)/1000);const limit=this.mode==='timed'?60:this.mode==='custom'&&this.custom.goal==='time'?this.custom.seconds:Infinity;if(this.elapsed()>=limit){void this.finish();return}this.raf=requestAnimationFrame(this.loop)};
+ async finish(){if(this.ending)return;this.ending=true;this.running.set(false);cancelAnimationFrame(this.raf);const e=Math.max(.01,this.elapsed()),st=calculateStats(this.correct(),this.mistakes(),e),old=await this.storage.results(),best=Math.max(0,...old.map(x=>x.score));const result:GameResult={id:crypto.randomUUID(),playedAt:new Date().toISOString(),mode:this.mode,difficulty:this.difficulty,score:Math.round(st.score),correctKeys:this.correct(),mistakes:this.mistakes(),accuracy:st.accuracy,kpm:st.kpm,elapsedSeconds:e,completedQuestions:this.completed(),maxCombo:this.maxCombo(),isPersonalBest:st.score>best};await this.storage.saveResult(result);sessionStorage.setItem('typingapp.lastResult',JSON.stringify(result));void this.router.navigateByUrl('/result')}
+}
