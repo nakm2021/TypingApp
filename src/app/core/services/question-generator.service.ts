@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Difficulty, Question } from '../../models/app.models';
 import { StorageService } from './storage.service';
+import { QUESTION_CORPUS } from './question-corpus';
 
 interface Word { text:string; kana:string; difficulty:Difficulty; category:string; }
-interface Built { text:string; kana:string; }
+interface Built { text:string; kana:string; category?:string; }
 const w=(text:string,kana:string,difficulty:Difficulty='beginner',category='daily'):Word=>({text,kana,difficulty,category});
 const join=(...xs:(Word|Built|string)[]):Built=>xs.reduce<Built>((a,x)=>typeof x==='string'?{text:a.text+x,kana:a.kana+x}:{text:a.text+x.text,kana:a.kana+x.kana},{text:'',kana:''});
 
@@ -127,6 +128,11 @@ const MORE_ADVANCED_START=TEMPLATES.length;
 TEMPLATES.push(...MORE_ADVANCED.map(phrase=>()=>phrase));
 const MORE_ADVANCED_END=TEMPLATES.length;
 
+// 多彩なジャンルの固定文。作品の台詞の転載ではなく、すべて練習用のオリジナル文。
+const CORPUS_START=TEMPLATES.length;
+TEMPLATES.push(...QUESTION_CORPUS.map(phrase=>()=>phrase));
+const CORPUS_END=TEMPLATES.length;
+
 // 初級は一息で打てる短文だけを使う。長音、英数字、記号も少量ずつ混ぜる。
 const BEGINNER_TEMPLATE_START=TEMPLATES.length;
 const SHORT_BEGINNER=[
@@ -183,7 +189,13 @@ export class QuestionGeneratorService {
     const now=new Date(),special=now.getMonth()===11&&now.getDate()===24?EVE:undefined;
     if(Math.random()<(special?.length?0.55:0.2)){for(let n=0;n<12;n++){const theme=pick(MONTHLY[now.getMonth()]),forms=[()=>join(theme,w('を楽しむ。','をたのしむ。')),()=>join(theme,w('の季節が来た。','のきせつがきた。')),()=>join(theme,w('の準備を始める。','のじゅんびをはじめる。')),()=>join(theme,w('を家族と味わう。','をかぞくとあじわう。'))],b=special?pick(special):pick(forms)(),key=this.normalize(b.text);if(!this.session.has(key)&&!this.recent.has(key))return this.finish(b,difficulty,'template','seasonal',key,-2)}}
     for(let attempt=0;attempt<40;attempt++){
-      const eligible=TEMPLATES.map((_,i)=>i).filter(i=>difficulty==='beginner'?i>=BEGINNER_TEMPLATE_START&&i<BEGINNER_TEMPLATE_END:difficulty==='advanced'?(i>=7&&i<20)||(i>=40&&i<MORE_INTERMEDIATE_START)||(i>=MORE_ADVANCED_START&&i<MORE_ADVANCED_END):i<MORE_ADVANCED_START);
+      const eligible=TEMPLATES.map((_,i)=>i).filter(i=>difficulty==='beginner'
+        ? i>=BEGINNER_TEMPLATE_START&&i<BEGINNER_TEMPLATE_END
+        : i>=CORPUS_START&&i<CORPUS_END
+          ? QUESTION_CORPUS[i-CORPUS_START].difficulty===difficulty
+          : difficulty==='advanced'
+            ? (i>=7&&i<20)||(i>=40&&i<MORE_INTERMEDIATE_START)||(i>=MORE_ADVANCED_START&&i<MORE_ADVANCED_END)
+            : i<MORE_ADVANCED_START);
       const varied=eligible.filter(i=>!this.lastGroups.includes(this.group(i,difficulty)));
       const available=(varied.length?varied:eligible).filter(i=>!this.lastTemplates.includes(i)); const ti=pick(available.length?available:eligible);
       const b=TEMPLATES[ti](difficulty); const key=this.normalize(b.text);
@@ -194,8 +206,8 @@ export class QuestionGeneratorService {
     const exhaustedPool=difficulty==='beginner'?TEMPLATES.slice(BEGINNER_TEMPLATE_START,BEGINNER_TEMPLATE_END):TEMPLATES;
     const b=pick(exhaustedPool)(difficulty);return this.finish(b,difficulty,'template','exhausted',this.normalize(b.text)+'-'+Date.now(),-1);
   }
-  private finish(b:Built,d:Difficulty,source:'template'|'fixed',templateId:string,key:string,ti:number):Question{this.session.add(key);this.recent.add(key);this.lastTemplates=[...this.lastTemplates.slice(-5),ti];this.lastGroups=[...this.lastGroups.slice(-4),this.group(ti,d)];void this.storage.rememberQuestion(key);return{id:crypto.randomUUID(),text:b.text,kana:b.kana,difficulty:d,category:'daily',source,duplicateKey:key,templateId}}
-  private group(i:number,d:Difficulty){if(i<0)return 'fixed';if(d==='beginner')return `beginner-${Math.floor((i-BEGINNER_TEMPLATE_START)/8)}`;if(i>=MORE_ADVANCED_START&&i<MORE_ADVANCED_END)return 'advanced-new';if(i>=MORE_INTERMEDIATE_START&&i<MORE_ADVANCED_START)return 'intermediate-new';return `core-${Math.floor(i/10)}`}
+  private finish(b:Built,d:Difficulty,source:'template'|'fixed',templateId:string,key:string,ti:number):Question{this.session.add(key);this.recent.add(key);this.lastTemplates=[...this.lastTemplates.slice(-5),ti];this.lastGroups=[...this.lastGroups.slice(-4),this.group(ti,d)];void this.storage.rememberQuestion(key);return{id:crypto.randomUUID(),text:b.text,kana:b.kana,difficulty:d,category:b.category??'daily',source,duplicateKey:key,templateId}}
+  private group(i:number,d:Difficulty){if(i<0)return 'fixed';if(i>=CORPUS_START&&i<CORPUS_END)return `corpus-${QUESTION_CORPUS[i-CORPUS_START].category}`;if(d==='beginner')return `beginner-${Math.floor((i-BEGINNER_TEMPLATE_START)/8)}`;if(i>=MORE_ADVANCED_START&&i<MORE_ADVANCED_END)return 'advanced-new';if(i>=MORE_INTERMEDIATE_START&&i<MORE_ADVANCED_START)return 'intermediate-new';return `core-${Math.floor(i/10)}`}
   private valid(b:Built){return b.text.length>3&&b.kana.length>3&&!/[一-龠]/.test(b.kana)&&!b.text.includes('undefined')}
   private normalize(v:string){return v.normalize('NFKC').replace(/[\s。、！？「」]/g,'').toLowerCase()}
 }
