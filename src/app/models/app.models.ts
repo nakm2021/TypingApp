@@ -33,10 +33,12 @@ export interface GameResult {
 
 export interface AppSettings {
   sound: boolean;
-  missSound: 'soft' | 'wood' | 'digital' | 'bell' | 'low';
+  missSound: 'soft' | 'wood' | 'digital' | 'bell' | 'low' | 'alarm' | 'knock' | 'buzz';
+  missSoundVolume: number;
   correctSoundEnabled: boolean;
-  correctSound: 'crisp' | 'mechanical' | 'bubble' | 'glass' | 'synth' | 'typewriter' | 'marimba' | 'laser' | 'drop' | 'tick' | 'pop' | 'retro';
+  correctSound: 'mix' | 'crisp' | 'mechanical' | 'bubble' | 'glass' | 'synth' | 'typewriter' | 'marimba' | 'laser' | 'drop' | 'tick' | 'pop' | 'retro' | 'thock' | 'clack' | 'cream' | 'arcade' | 'pen' | 'stone' | 'spring' | 'bass';
   correctSoundVolume: number;
+  comboMilestones: boolean;
   showRomaji: boolean;
   showKana: boolean;
   theme: 'dark' | 'light';
@@ -44,6 +46,6 @@ export interface AppSettings {
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
-  sound: true, missSound: 'soft', correctSoundEnabled: true, correctSound: 'crisp', correctSoundVolume: 100, showRomaji: true, showKana: true, theme: 'dark', fontSize: 'medium'
+  sound: true, missSound: 'soft', missSoundVolume: 120, correctSoundEnabled: true, correctSound: 'crisp', correctSoundVolume: 120, comboMilestones: true, showRomaji: true, showKana: true, theme: 'dark', fontSize: 'medium'
 };
 
